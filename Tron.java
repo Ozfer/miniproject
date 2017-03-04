@@ -1,5 +1,4 @@
 /*Group Project Java 2
-Ryan Brenek
 Feb 2017
 Main class that builds the windows and will validate moves
 at least two more threads need to be made one for each player
