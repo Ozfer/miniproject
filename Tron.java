@@ -7,15 +7,19 @@ move validation needs to be added
 this would be VERY easy to make larger say 100x100 if need be
  */
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 import javax.swing.border.*;
 
-public class Tron {
+public class Tron implements ActionListener{
+   
+    public int gameStatus = 0; // 0 = not running 1 = game running
+    
 
     private final JPanel gui = new JPanel(new BorderLayout(3, 3));
-    private JButton[][] squares = new JButton[16][16];
-    private JPanel gameSquares;
+    private JButton[][] squares = new JButton[64][64]; //jbutton array for tiles
+    private JPanel gameSquares; //jpanel that holds tiles
 
     public static void main(String[] args) {
         Runnable r = new Runnable() {
@@ -53,14 +57,20 @@ public class Tron {
         JToolBar tools = new JToolBar();
         tools.setFloatable(false);
         gui.add(tools, BorderLayout.PAGE_START);
-        tools.add(new JButton("Start")); //  add functionality
-        tools.add(new JButton("Clear")); //  add functionality
-        tools.add(new JButton("Exit")); //  add functionality
+        JButton jbStart = new JButton("Start");
+        JButton jbClear = new JButton("Clear");
+        JButton jbExit = new JButton("Exit");
+        tools.add(jbStart); //  add functionality
+        jbStart.addActionListener(this);
+        tools.add(jbClear); //  add functionality
+        jbClear.addActionListener(this);
+        tools.add(jbExit); //  add functionality
+        jbExit.addActionListener(this);
         tools.addSeparator();
 
 
          //adds squares to the panel and sets the outline of the board to black       
-        gameSquares = new JPanel(new GridLayout(0, 16));
+        gameSquares = new JPanel(new GridLayout(0, 64));
         gameSquares.setBorder(new LineBorder(Color.BLACK));
         gui.add(gameSquares);
 
@@ -72,9 +82,10 @@ public class Tron {
                 b.setMargin(buttonMargin);
                 
                 ImageIcon icon = new ImageIcon(
-                        new BufferedImage(32, 32, BufferedImage.TYPE_INT_ARGB));
+                        new BufferedImage(6, 6, BufferedImage.TYPE_INT_ARGB));
                 b.setIcon(icon);
                 b.setBackground(Color.WHITE);
+                b.setEnabled(false);
         
                 squares[jj][ii] = b;
             }
@@ -82,8 +93,8 @@ public class Tron {
 
 
         // fill in vertical rows
-        for (int ii = 0; ii < 16; ii++) {
-            for (int jj = 0; jj < 16; jj++) {
+        for (int ii = 0; ii < 64; ii++) {
+            for (int jj = 0; jj < 64; jj++) {
                 
                         gameSquares.add(squares[jj][ii]);
                 
@@ -96,6 +107,41 @@ public class Tron {
     public final JComponent getGui() {
         return gui;
     }
+    public void actionPerformed(ActionEvent e) {
+            if(e.getActionCommand().equals("Exit")){
+            System.exit(0);
+            }
+            if(e.getActionCommand().equals("Clear")){
+            gameStatus = 0;
+            
+            }
+            if(e.getActionCommand().equals("Start")){
+            
+            if(gameStatus == 1){
+            return;
+            }
+            
+            gameStatus = 1;
+            
+            
+            
+            }
+     
+                
+        }
+    public class Player1 implements Runnable {
+    public void run(){
+    System.out.println("hello");
+    }
+    
+    }
+    public class Player2 implements Runnable {
+    public void run(){
+    System.out.println("hello 2");
+    }
+    
+    }
+
 
 
 }
