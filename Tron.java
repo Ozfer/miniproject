@@ -11,6 +11,9 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 import javax.swing.border.*;
+import java.util.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Tron implements ActionListener{
    
@@ -82,9 +85,9 @@ public class Tron implements ActionListener{
                 b.setMargin(buttonMargin);
                 
                 ImageIcon icon = new ImageIcon(
-                        new BufferedImage(6, 6, BufferedImage.TYPE_INT_ARGB));
+                        new BufferedImage(4, 4, BufferedImage.TYPE_INT_ARGB));
                 b.setIcon(icon);
-                b.setBackground(Color.WHITE);
+                //b.setBackground(Color.RE);
                 b.setEnabled(false);
         
                 squares[jj][ii] = b;
@@ -113,35 +116,97 @@ public class Tron implements ActionListener{
             }
             if(e.getActionCommand().equals("Clear")){
             gameStatus = 0;
+            try{
+            Thread.sleep(1000);
+            }catch(Exception de){}
+
+            for(int i = 0; i < 64; i++){
+              for(int c = 0; c < 64; c++){
+              squares[i][c].setBackground(Color.WHITE);
+              }
+            }
+            
             
             }
             if(e.getActionCommand().equals("Start")){
-            
+            gameStatus = 1;
+            Player1 P1 = new Player1();
+            Player2 P2 = new Player2();
+            //if(gameStatus == 1){
+               
+               P1.start();
+               P2.start();
+                              
+       
+               
+               //Player2.start();
+               //if(Player1= true){squares[4][32].setBackground(Color.RED);}
+              // squares[4][32].setBackground(Color.RED);
+              // squares[59][32].setBackground(Color.BLUE);
+            //}
             if(gameStatus == 1){
             return;
             }
-            
-            gameStatus = 1;
-            
-            
+                        
             
             }
      
                 
         }
-    public class Player1 implements Runnable {
+    public class Player1 extends Thread {
     public void run(){
     System.out.println("hello");
+    //squares[4][32].setBackground(Color.RED);
+    int a = 4;
+    int b = 32;
+    while(true){
+      if(gameStatus == 1){
+      try{
+      Thread.sleep(250);
+      }catch(Exception e){
+      }
+      //for(int a=4;a>-1;a++){
+      //      a = a+ 0;
+      //      squares[a][b].setBackground(Color.RED);
+      //  }
+      squares[a][b].setBackground(Color.RED);      
+      a = a+1;
+      //squares[a][b].setBackground(Color.RED);
+
+       if(a < 0 || b < 0 || a >=64 || b >=64){
+       gameStatus = 0;
+        JOptionPane.showMessageDialog(null, "Red wins!", "Winner!",
+                                    JOptionPane.ERROR_MESSAGE);
+       }
+      } 
+    } 
     }
-    
+     
     }
-    public class Player2 implements Runnable {
+    public class Player2 extends Thread {
     public void run(){
     System.out.println("hello 2");
+    //squares[59][32].setBackground(Color.BLUE);
+    int c = 59;
+    int d = 32;
+      while(gameStatus == 1){
+       try{
+       Thread.sleep(250);
+       }catch(Exception e){}
+
+       squares[c][d].setBackground(Color.BLUE);
+       c--;
+
+       if(c < 0 || d < 0 || c >=64 || d >=64){
+       gameStatus = 0;
+       JOptionPane.showMessageDialog(null, "Red wins!", "Winner!",
+                                    JOptionPane.ERROR_MESSAGE);
+       
+       }
+      }
+    
     }
     
     }
-
-
 
 }
