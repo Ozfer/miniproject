@@ -1,11 +1,17 @@
 /*Group Project Java 2
 Feb 2017
+Ryan Brenek Jeremy
 Main class that builds the windows and will validate moves
 at least two more threads need to be made one for each player
 button functions need to be added
 move validation needs to be added
 this would be VERY easy to make larger say 100x100 if need be
+
+Takes keyboard input
+doesnt return anything
  */
+ 
+//imports section
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.KeyEvent;
@@ -19,6 +25,7 @@ import java.util.TimerTask;
 
 public class Tron implements ActionListener{
    
+   //variable for moving
     int mov = 1;
     int mov2 = 3;
      
@@ -110,6 +117,7 @@ public class Tron implements ActionListener{
             }
         }
         
+         //gets keyboard events to move the players
           KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(
         new KeyEventDispatcher() {
             public boolean dispatchKeyEvent(KeyEvent keyEvent) {
@@ -150,12 +158,14 @@ public class Tron implements ActionListener{
     public final JComponent getGui() {
         return gui;
     }
+    
+    //controlls the buttons
     public void actionPerformed(ActionEvent e) {
-            if(e.getActionCommand().equals("Exit")){
+            if(e.getActionCommand().equals("Exit")){ //exit the program
 
             System.exit(-1);
             }
-            if(e.getActionCommand().equals("Clear")){
+            if(e.getActionCommand().equals("Clear")){ //clear the pieces
             gameStatus = 0;
             try{
             Thread.sleep(1000);
@@ -169,7 +179,7 @@ public class Tron implements ActionListener{
                                   
             
             }
-            if(e.getActionCommand().equals("Start")){
+            if(e.getActionCommand().equals("Start")){ //art the game
             
 
 
@@ -187,7 +197,7 @@ public class Tron implements ActionListener{
                
                Player1 P1 = new Player1();
                Player2 P2 = new Player2();
-               
+               //start the 2 player threads
                
                P1.start();
                P2.start();
@@ -205,7 +215,7 @@ public class Tron implements ActionListener{
                 
         }
      
-    public class Player1 extends Thread{
+    public class Player1 extends Thread{ //player 1 thread
 
     
     public void run(){
@@ -214,7 +224,7 @@ public class Tron implements ActionListener{
     
     int a = 4;
     int b = 32;
-    while(true){
+    while(true){ //keep going 
 
        if(gameStatus == 1){
       try{
@@ -223,7 +233,9 @@ public class Tron implements ActionListener{
       }{
  
      
-      squares[a][b].setBackground(Color.RED);      
+      squares[a][b].setBackground(Color.RED); //set the color of current square    
+      
+      //move based on the direction of the int 
       if(mov == 1){
       a = a +1;
       }
@@ -237,7 +249,7 @@ public class Tron implements ActionListener{
       b = b - 1;
       }
       
-
+      //check for hit conditions
        if(a < 0 || b < 0 || a >=64 || b >=64 || squares[a][b].getBackground() == Color.BLUE || squares[a][b].getBackground() == Color.RED){
        gameStatus = 0;
         JOptionPane.showMessageDialog(null, "Blue wins!", "Winner!",
@@ -252,7 +264,7 @@ public class Tron implements ActionListener{
     }
      
     }
-    public class Player2 extends Thread{
+    public class Player2 extends Thread{ //player two thread
  
     
     public void run(){
@@ -269,8 +281,9 @@ public class Tron implements ActionListener{
        Thread.sleep(100);
        }catch(Exception e){}
       
-      squares[c][d].setBackground(Color.BLUE);
+      squares[c][d].setBackground(Color.BLUE); //sets player 2 square blue
       
+      //move player 2 based on direction of mov2
       if(mov2 == 1){
       c = c + 1;
       }
@@ -286,7 +299,7 @@ public class Tron implements ActionListener{
       
        
        
-
+        //check for hit conditions
        if(c < 0 || d < 0 || c >=64 || d >=64 || squares[c][d].getBackground() == Color.BLUE || squares[c][d].getBackground() == Color.RED){
        gameStatus = 0;
        JOptionPane.showMessageDialog(null, "Red wins!", "Winner!",
