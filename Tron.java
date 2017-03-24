@@ -8,6 +8,8 @@ this would be VERY easy to make larger say 100x100 if need be
  */
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 import javax.swing.border.*;
@@ -17,6 +19,9 @@ import java.util.TimerTask;
 
 public class Tron implements ActionListener{
    
+    int mov = 1;
+    int mov2 = 3;
+     
     public int gameStatus = 0; // 0 = not running 1 = game running
     
 
@@ -70,6 +75,7 @@ public class Tron implements ActionListener{
         tools.add(jbExit); //  add functionality
         jbExit.addActionListener(this);
         tools.addSeparator();
+        //addKeyListener(this);
 
 
          //adds squares to the panel and sets the outline of the board to black       
@@ -103,6 +109,40 @@ public class Tron implements ActionListener{
                 
             }
         }
+        
+          KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(
+        new KeyEventDispatcher() {
+            public boolean dispatchKeyEvent(KeyEvent keyEvent) {
+                if(keyEvent.getKeyChar() == 'i' || keyEvent.getKeyChar() == 'I') {
+                    mov2 = 4;
+                }
+                if(keyEvent.getKeyChar() == 'l' || keyEvent.getKeyChar() == 'L') {
+                    mov2 = 1;
+                }
+                 if(keyEvent.getKeyChar() == 'k' || keyEvent.getKeyChar() == 'K') {
+                    mov2 = 2;
+                }
+                 if(keyEvent.getKeyChar() == 'j' || keyEvent.getKeyChar() == 'J') {
+                    mov2 = 3;
+                }
+                if(keyEvent.getKeyChar() == 'w' || keyEvent.getKeyChar() == 'W') {
+                    mov = 4;
+                }
+                if(keyEvent.getKeyChar() == 'd' || keyEvent.getKeyChar() == 'D') {
+                    mov = 1;
+                }
+                 if(keyEvent.getKeyChar() == 's' || keyEvent.getKeyChar() == 'S') {
+                    mov = 2;
+                }
+                 if(keyEvent.getKeyChar() == 'a' || keyEvent.getKeyChar() == 'A') {
+                    mov = 3;
+                }
+              return true;
+            }
+        });
+
+        
+        
     }
 
 
@@ -112,7 +152,8 @@ public class Tron implements ActionListener{
     }
     public void actionPerformed(ActionEvent e) {
             if(e.getActionCommand().equals("Exit")){
-            System.exit(0);
+
+            System.exit(-1);
             }
             if(e.getActionCommand().equals("Clear")){
             gameStatus = 0;
@@ -125,25 +166,35 @@ public class Tron implements ActionListener{
               squares[i][c].setBackground(Color.WHITE);
               }
             }
-            
+                                  
             
             }
             if(e.getActionCommand().equals("Start")){
+            
+
+
+            for(int i = 0; i < 64; i++){
+              for(int c = 0; c < 64; c++){
+              squares[i][c].setBackground(null);
+              }
+            }
+              try{
+            Thread.sleep(1000);
+            }catch(Exception de){}
+
+            
             gameStatus = 1;
-            Player1 P1 = new Player1();
-            Player2 P2 = new Player2();
-            //if(gameStatus == 1){
+               
+               Player1 P1 = new Player1();
+               Player2 P2 = new Player2();
+               
                
                P1.start();
                P2.start();
                               
        
                
-               //Player2.start();
-               //if(Player1= true){squares[4][32].setBackground(Color.RED);}
-              // squares[4][32].setBackground(Color.RED);
-              // squares[59][32].setBackground(Color.BLUE);
-            //}
+
             if(gameStatus == 1){
             return;
             }
@@ -153,60 +204,101 @@ public class Tron implements ActionListener{
      
                 
         }
-    public class Player1 extends Thread {
+     
+    public class Player1 extends Thread{
+
+    
     public void run(){
-    System.out.println("hello");
-    //squares[4][32].setBackground(Color.RED);
+    mov = 1;
+
+    
     int a = 4;
     int b = 32;
     while(true){
-      if(gameStatus == 1){
-      try{
-      Thread.sleep(250);
-      }catch(Exception e){
-      }
-      //for(int a=4;a>-1;a++){
-      //      a = a+ 0;
-      //      squares[a][b].setBackground(Color.RED);
-      //  }
-      squares[a][b].setBackground(Color.RED);      
-      a = a+1;
-      //squares[a][b].setBackground(Color.RED);
 
-       if(a < 0 || b < 0 || a >=64 || b >=64){
+       if(gameStatus == 1){
+      try{
+      Thread.sleep(100);
+      }catch(Exception e){
+      }{
+ 
+     
+      squares[a][b].setBackground(Color.RED);      
+      if(mov == 1){
+      a = a +1;
+      }
+      if(mov == 2){
+      b = b + 1;
+      }
+      if(mov == 3){
+      a = a - 1;
+      }
+      if(mov == 4){
+      b = b - 1;
+      }
+      
+
+       if(a < 0 || b < 0 || a >=64 || b >=64 || squares[a][b].getBackground() == Color.BLUE || squares[a][b].getBackground() == Color.RED){
        gameStatus = 0;
-        JOptionPane.showMessageDialog(null, "Red wins!", "Winner!",
+        JOptionPane.showMessageDialog(null, "Blue wins!", "Winner!",
                                     JOptionPane.ERROR_MESSAGE);
+        }
        }
+       
       } 
+   
     } 
+   
     }
      
     }
-    public class Player2 extends Thread {
+    public class Player2 extends Thread{
+ 
+    
     public void run(){
-    System.out.println("hello 2");
-    //squares[59][32].setBackground(Color.BLUE);
+    mov2 = 3;
+
+
     int c = 59;
     int d = 32;
       while(gameStatus == 1){
+      
+    
+      
        try{
-       Thread.sleep(250);
+       Thread.sleep(100);
        }catch(Exception e){}
+      
+      squares[c][d].setBackground(Color.BLUE);
+      
+      if(mov2 == 1){
+      c = c + 1;
+      }
+      if(mov2 == 2){
+      d = d + 1;
+      }
+      if(mov2 == 3){
+      c = c - 1;
+      }
+      if(mov2 == 4){
+      d = d - 1;
+      }
+      
+       
+       
 
-       squares[c][d].setBackground(Color.BLUE);
-       c--;
-
-       if(c < 0 || d < 0 || c >=64 || d >=64){
+       if(c < 0 || d < 0 || c >=64 || d >=64 || squares[c][d].getBackground() == Color.BLUE || squares[c][d].getBackground() == Color.RED){
        gameStatus = 0;
        JOptionPane.showMessageDialog(null, "Red wins!", "Winner!",
                                     JOptionPane.ERROR_MESSAGE);
        
        }
       }
+     
     
     }
+
     
-    }
+   }
 
 }
