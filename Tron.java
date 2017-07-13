@@ -1,6 +1,4 @@
-/*Group Project Java 2
-Feb 2017
-Ryan Brenek Jeremy
+/*
 Main class that builds the windows and will validate moves
 at least two more threads need to be made one for each player
 button functions need to be added
